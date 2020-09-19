@@ -13,6 +13,10 @@ from numpy import load
 from os import listdir
 import os.path
 from datetime import datetime
+import json
+
+
+
 
 
 num_of_images = 20
@@ -43,31 +47,45 @@ txt2.place(x = 700, y = 215)
 
 
 
+
+f = f = open('index_to_name.json',)
+
+index_to_name = json.load(f) 
+list_name = []
+for index, name in index_to_name.items():
+    list_name.append(name)
 # Take train image of new user nhìn thẳng.
 def TakeImages():
+
     goc_nhin = "nhin_thang"
     name =(txt2.get())
-
+    if name not in list_name:
+        index_to_name[len(list_name)] = name
+        list_name.append(name)
     fourcc = cv2.VideoWriter_fourcc('X','V','I','D')
+    index_name = len(list_name) - 1
     # print("start take image")
     try:
         # print("name", name)
         # print("make forder")
-        os.mkdir("./dataset/" + name)
+        os.mkdir("./dataset/" + str(index_name))
     except:
         print("pass")
         pass
     fourcc = cv2.VideoWriter_fourcc('X','V','I','D')
-    videoWriter = cv2.VideoWriter("dataset/" + name + "/" + "video.avi", fourcc, 30.0, (640,480))
+    videoWriter = cv2.VideoWriter("dataset/" + str(index_name) + "/" + str(index_name) + "video.avi", fourcc, 30.0, (640,480))
     
-    cam = cv2.VideoCapture(2)
+    cam = cv2.VideoCapture("http://192.168.43.1:8080/video")
+    # cam = cv2.VideoCapture(0)
+    # cam = cv2.VideoCapture(2)
+
     count = 0
     flag = -1
     while(True):
         # print(datetime.now())
         ret, frame = cam.read()
         # print(frame)
-        # frame_resize = cv2.resize(frame,(480,int(frame.shape[0]/frame.shape[1]*480)))
+        frame = cv2.resize(frame,(640,int(frame.shape[0]/frame.shape[1]*640)))
         cv2.imshow('frame_resize', frame)
         videoWriter.write(frame)
         key = cv2.waitKey(20)
@@ -104,42 +122,42 @@ def TakeImages():
         # break if the sample number is more than 20
 
         if flag == 1:
-            cv2.imwrite("./dataset/" + name + "/" + "nhin_thang_" + str(count) + ".jpg", frame)
+            cv2.imwrite("./dataset/" + str(index_name) + "/" + str(index_name) +"nhin_thang_" + str(count) + ".jpg", frame)
             count += 1
-            print("./dataset/" + name + "/" + "nhin_thang_" + str(count) + ".jpg")
+            print("./dataset/" + str(index_name) + "/" + str(index_name) +"nhin_thang_" + str(count) + ".jpg")
         elif flag == 2:
-            cv2.imwrite("./dataset/" + name + "/" + "nhin_len_" + str(count) + ".jpg", frame)
+            cv2.imwrite("./dataset/" + str(index_name) + "/" + str(index_name) +"nhin_len_" + str(count) + ".jpg", frame)
             count += 1
-            print("./dataset/" + name + "/" + "nhin_len_" + str(count) + ".jpg")
+            print("./dataset/" + str(index_name) + "/" + str(index_name) +"nhin_len_" + str(count) + ".jpg")
 
         elif flag == 3:
-            cv2.imwrite("./dataset/" + name + "/" + "nhin_xuong_" + str(count) + ".jpg", frame)
+            cv2.imwrite("./dataset/" + str(index_name) + "/" + str(index_name) +"nhin_xuong_" + str(count) + ".jpg", frame)
             count += 1
-            print("./dataset/" + name + "/" + "nhin_xuong_" + str(count) + ".jpg")
+            print("./dataset/" + str(index_name) + "/" + str(index_name) +"nhin_xuong_" + str(count) + ".jpg")
         elif flag == 4:
-            cv2.imwrite("./dataset/" + name + "/" + "nhin_trai_" + str(count) + ".jpg", frame)
+            cv2.imwrite("./dataset/" + str(index_name) + "/" + str(index_name) +"nhin_trai_" + str(count) + ".jpg", frame)
             count += 1
-            print("./dataset/" + name + "/" + "nhin_trai_" + str(count) + ".jpg")
+            print("./dataset/" + str(index_name) + "/" + str(index_name) +"nhin_trai_" + str(count) + ".jpg")
         elif flag == 5:
-            cv2.imwrite("./dataset/" + name + "/" + "nhin_phai_" + str(count) + ".jpg", frame)
+            cv2.imwrite("./dataset/" + str(index_name) + "/" + str(index_name) +"nhin_phai_" + str(count) + ".jpg", frame)
             count += 1
-            print("./dataset/" + name + "/" + "nhin_phai_" + str(count) + ".jpg")
+            print("./dataset/" + str(index_name) + "/" + str(index_name) +"nhin_phai_" + str(count) + ".jpg")
         elif flag == 6:
-            cv2.imwrite("./dataset/" + name + "/" + "cuoi_" + str(count) + ".jpg", frame)
+            cv2.imwrite("./dataset/" + str(index_name) + "/" + str(index_name) +"cuoi_" + str(count) + ".jpg", frame)
             count += 1
-            print("./dataset/" + name + "/" + "cuoi_" + str(count) + ".jpg")
+            print("./dataset/" + str(index_name) + "/" + str(index_name) +"cuoi_" + str(count) + ".jpg")
         elif flag == 7:
-            cv2.imwrite("./dataset/" + name + "/" + "xoay_vong_tron" + str(count) + ".jpg", frame)
+            cv2.imwrite("./dataset/" + str(index_name) + "/" + str(index_name) +"xoay_vong_tron" + str(count) + ".jpg", frame)
             count += 1
-            print("./dataset/" + name + "/" + "xoay_vong_tron" + str(count) + ".jpg")
+            print("./dataset/" + str(index_name) + "/" + str(index_name) +"xoay_vong_tron" + str(count) + ".jpg")
         elif flag == 8:
-            cv2.imwrite("./dataset/" + name + "/" + "nham_mat_trai" + str(count) + ".jpg", frame)
+            cv2.imwrite("./dataset/" + str(index_name) + "/" + str(index_name) +"nham_mat_trai" + str(count) + ".jpg", frame)
             count += 1
-            print("./dataset/" + name + "/" + "nham_mat_trai" + str(count) + ".jpg")
+            print("./dataset/" + str(index_name) + "/" + str(index_name) +"nham_mat_trai" + str(count) + ".jpg")
         elif flag == 9:
-            cv2.imwrite("./dataset/" + name + "/" + "nham_mat_phai" + str(count) + ".jpg", frame)
+            cv2.imwrite("./dataset/" + str(index_name) + "/" + str(index_name) +"nham_mat_phai" + str(count) + ".jpg", frame)
             count += 1
-            print("./dataset/" + name + "/" + "nham_mat_phai" + str(count) + ".jpg")
+            print("./dataset/" + str(index_name) + "/" + str(index_name) +"nham_mat_phai" + str(count) + ".jpg")
 
 
         if count > num_of_images:
@@ -153,6 +171,8 @@ def TakeImages():
     cam.release()
     videoWriter.release()
     cv2.destroyAllWindows()
+    with open('index_to_name.json', 'w') as json_file:
+        json.dump(index_to_name, json_file)
 
 
 
